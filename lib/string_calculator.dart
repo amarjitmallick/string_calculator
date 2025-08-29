@@ -10,13 +10,16 @@ class StringCalculator {
     }
 
     numbers = numbers.replaceAll('\n', delimiter);
-    final parts = numbers.split(delimiter).map(int.parse).toList();
-
+    final parts = numbers
+        .split(delimiter)
+        .where((s) => s.isNotEmpty)
+        .map(int.parse)
+        .toList();
     final negatives = parts.where((n) => n < 0).toList();
     if (negatives.isNotEmpty) {
       throw Exception("negative numbers not allowed ${negatives.join(',')}");
     }
 
-    return parts.reduce((a, b) => a + b);
+    return parts.where((n) => n <= 1000).fold(0, (a, b) => a + b);
   }
 }
